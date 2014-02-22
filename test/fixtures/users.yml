@@ -3,4 +3,9 @@ ro:
  last_name: "Bot"
  email: "ro@bot.tron"
  profile_name: "robotron"
- 
+
+ro1:
+ first_name: "Ro"
+ last_name: "Bot"
+ email: "ro1@bot.tron"
+ profile_name: "robotron1"

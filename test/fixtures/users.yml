@@ -3,5 +3,4 @@ ro:
  last_name: "Bot"
  email: "ro@bot.tron"
  profile_name: "robotron"
- password: "password"
- password_confirmation: "password"
+ 

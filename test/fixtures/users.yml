@@ -6,6 +6,12 @@ ro:
 
 ro1:
  first_name: "Ro"
- last_name: "Bot"
+ last_name: "Bot1"
  email: "ro1@bot.tron"
  profile_name: "robotron1"
+
+ro2:
+ first_name: "Ro"
+ last_name: "Bot2"
+ email: "ro2@bot.tron"
+ profile_name: "robotron2"

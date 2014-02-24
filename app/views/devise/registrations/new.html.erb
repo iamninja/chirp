@@ -13,13 +13,15 @@
       <%= f.input :password%>
       <%= f.input :password_confirmation %>
     </fieldset>
-      
+        
 
-      <%= f.button :submit, "Sign up" %>
-    </div>
+    <%= f.button :submit, "Sign up" %>
+  </div>
+      
     <div class="span8">
-    <h3>Registation powered by Devise</h3>
-    <%= devise_error_messages!%></div>
+      <%= devise_error_messages!%>
+    </div>
+    
     <% end %>
 
 

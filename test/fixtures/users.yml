@@ -3,6 +3,7 @@ ro:
  last_name: "Bot"
  email: "ro@bot.tron"
  profile_name: "robotron"
+ encrypted_password: "$2a$10$Fh/Hm8RxDsuPTeBUr6864.GARlcmt7zF2WspaXGr3BIv2C27N.osq"
 
 ro1:
  first_name: "Ro"

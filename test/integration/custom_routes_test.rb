@@ -21,7 +21,7 @@ class CustomRoutesTest < ActionDispatch::IntegrationTest
   end
 
   test "that a profile page works" do
-    get '/ro'
+    get '/robotron'
     assert_response :success
     
   end

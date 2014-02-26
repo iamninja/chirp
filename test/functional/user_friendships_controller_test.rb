@@ -4,6 +4,51 @@ class UserFriendshipsControllerTest < ActionController::TestCase
   # test "the truth" do
   #   assert true
   # end
+
+  context "#index" do
+		context "when not logged in" do
+			should "redirect to the login page" do
+				get :index
+				assert_response :redirect
+			end 
+		end
+
+		context "when logged in" do
+			setup do
+				@friendship1 = create(:pending_user_friendship, user: users(:ro), friend: create(:user, first_name:'Pending', last_name:'Friend'))
+				@friendship2 = create(:accepted_user_friendship, user: users(:ro), friend: create(:user, first_name:'Active', last_name:'Friend'))
+
+				sign_in users(:ro)
+				get :index
+			end
+
+			should "get the index page without error" do
+				assert_response :success
+			end
+
+			should "assign user_friendships" do
+				assert assigns(:user_friendships)
+			end
+
+			should "display friend's names" do
+				assert_match /Pending/, response.body
+				assert_match /Active/, response.body
+			end
+
+			should "display pending information on a pending friendship" do
+				assert_select "#user_friendship_#{@friendship1.id}" do
+					assert_select "em", "Friendship is pending."
+				end
+			end
+
+			should "display pending information on an accepted friendship" do
+				assert_select "#user_friendship_#{@friendship2.id}" do
+					assert_select "em", "Friendship started #{@friendship2.updated_at}."
+				end
+			end
+		end
+	end
+
   context "#new" do
 		context "when not logged in" do
 			should "redirect to the login page" do
@@ -88,6 +133,14 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 				end
 			end
 
+			context "successfully" do
+				should "create two user friendship objects" do
+					assert_difference 'UserFriendship.count', 2 do
+						post :create, user_friendship: {friend_id: users(:ro2).profile_name}
+					end
+				end
+			end
+
 			context "with a valid friend id" do
 				setup do
 					post :create, user_friendship: {friend_id: users(:ro2)}
@@ -105,7 +158,7 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 				end
 
 				should "create friendship" do
-					assert users(:ro).friends.include?(users(:ro2))
+					assert users(:ro).pending_friends.include?(users(:ro2))
 				end
 
 				should "redirect to profile page of the friend" do
@@ -115,8 +168,103 @@ class UserFriendshipsControllerTest < ActionController::TestCase
 
 				should "set the flash success message" do
 					assert flash[:success]
-					assert_equal "You are now friends the #{users(:ro2).full_name}", flash[:success]
+					assert_equal "Friend request sent.", flash[:success]
 				end
+			end
+		end
+	end
+
+	context "#accept" do
+		context "when not logged in" do
+			should "redirect to the login page" do
+				put :accept, id: 1
+				assert_response :redirect
+				assert_redirected_to login_path
+			end
+		end
+
+		context "when logged in" do
+			setup do
+				@friend = create(:user)
+				@user_friendship = create(:pending_user_friendship, user: users(:ro), friend: @friend)
+				create(:pending_user_friendship, friend: users(:ro), user: @friend)
+
+				sign_in users(:ro)
+				put :accept, id: @user_friendship
+				@user_friendship.reload
+			end
+
+			should "assign a user friendsip" do
+				assert assigns(:user_friendship)
+				assert_equal @user_friendship, assigns(:user_friendship)
+			end
+
+			should "update the state to accepted" do
+				assert_equal 'accepted', @user_friendship.state
+			end
+
+			should "have a flash success message" do
+				assert_equal "You are now friends with #{@user_friendship.friend.first_name}.", flash[:success]
+			end
+		end
+	end
+
+	context "#edit" do
+		context "when not logged in" do
+			should "redirect to the login page" do
+				get :edit, id: 1
+				assert_response :redirect
+			end 
+		end
+
+		context "when logged in" do
+			setup do
+				@user_friendship = create(:pending_user_friendship, user: users(:ro))
+				sign_in users(:ro)
+				get :edit, id: @user_friendship
+			end
+
+			should "get the edit page" do
+				assert_response :success
+			end
+
+			should "assign to the user_friendship" do
+				assert assigns(:user_friendship)
+			end
+
+			should "assign to the friend" do
+				assert assigns(:friend)
+			end
+		end
+	end
+
+	context "#destroy" do
+		context "when not logged in" do
+			should "redirect to the login page" do
+				delete :destroy, id: 1
+				assert_response :redirect
+				assert_redirected_to login_path
+			end
+		end
+
+		context "when logged in" do
+			setup do
+				@friend = create(:user)
+				@user_friendship = create(:accepted_user_friendship, friend: @friend, user: users(:ro))
+				create(:accepted_user_friendship, friend: users(:ro), user: @friend)
+
+				sign_in users(:ro)
+			end
+
+			should "delete user friendships" do
+				assert_difference 'UserFriendship.count', -2 do
+					delete :destroy, id: @user_friendship
+				end
+			end
+
+			should "set the flash" do
+				delete :destroy, id: @user_friendship
+				assert_equal "Friendship destroyed.", flash[:success]
 			end
 		end
 	end

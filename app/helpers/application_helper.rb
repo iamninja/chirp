@@ -14,4 +14,11 @@ module ApplicationHelper
 			""	
 		end
 	end
+
+	def status_document_link(status)
+		if status.document && status.document.attachment?
+			content_tag(:span, "Attachment", class: 'label label-info')
+			link_to(status.document.attachment_file_name, status.document.attachment.url)
+		end
+	end
 end

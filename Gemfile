@@ -11,6 +11,10 @@ gem 'state_machine'
 gem 'draper'
 gem 'js-routes'
 
+group :development do
+	gem 'thin'
+end
+
 group :test do
 	gem 'shoulda'
 	gem 'factory_girl_rails'
@@ -18,6 +22,7 @@ end
 
 group :development, :test do
 	gem 'sqlite3'
+	gem 'log_buddy'
 end
 
 group :production do

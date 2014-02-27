@@ -5,5 +5,10 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-    user: "ro"
-    friend: "ro1"
+ user: "ro"
+ friend: "ro1"
+
+blocked_by_ro:
+ user: "ro"
+ friend: "blocked_friend"
+ state: "blocked"

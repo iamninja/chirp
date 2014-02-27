@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class StatusesControllerTest < ActionController::TestCase
+  include Devise::TestHelpers
   setup do
     @status = statuses(:one)
   end
@@ -9,6 +10,23 @@ class StatusesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:statuses)
+  end
+
+  test "that should display all user's statuses when not logged in" do
+    users(:blocked_friend).statuses.create(content: "Blocked status")
+    users(:ro1).statuses.create(content: "Non-blocked status")
+    get :index
+    assert_match /Non\-blocked status/, response.body
+    assert_match /Blocked\ status/, response.body
+  end
+
+  test "that should not display blocked user's statuses when logged in" do
+    sign_in users(:ro)
+    users(:blocked_friend).statuses.create(content: "Blocked status")
+    users(:ro1).statuses.create(content: "Non-blocked status")
+    get :index
+    assert_match /Non\-blocked status/, response.body
+    assert_no_match /Blocked\ status/, response.body
   end
 
   test "should be redirected when not logged in" do

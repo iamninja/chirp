@@ -16,3 +16,9 @@ ro2:
  last_name: "Bot2"
  email: "ro2@bot.tron"
  profile_name: "robotron2"
+
+blocked_friend:
+ first_name: 'Blocked'
+ last_name: 'Friend'
+ email: 'blocked@bot.tron'
+ profile_name: 'blockedbot'

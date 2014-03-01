@@ -1,7 +1,6 @@
 Book::Application.routes.draw do
-  get "profiles/show"
-
-  #when using devise need '/registen' insteead of 'register', etc.
+  
+  #when using devise need '/register' insteead of 'register', etc.
   as :user do
     get '/register', to:'devise/registrations#new', as: :register
     get '/login', to:'devise/sessions#new', as: :login
@@ -25,6 +24,12 @@ Book::Application.routes.draw do
 
   resources :statuses
   get 'feed', to: 'statuses#index', as: :feed
+
+  scope ":profile_name" do
+    resources :albums do
+      resources :pictures
+    end
+  end
 
   root :to => "statuses#index"
 

@@ -10,6 +10,9 @@
 #Ignore attachements and other uploaded files
 /public/system
 
+#Ignore 
+/public/assets
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 

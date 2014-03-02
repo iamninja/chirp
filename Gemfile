@@ -22,7 +22,7 @@ gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
 
-gem 'thin'
+gem 'unicorn'
 
 
 group :test do

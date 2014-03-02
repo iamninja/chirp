@@ -5,9 +5,9 @@
 <div>
   <strong>Friend list:</strong>
   <%= link_to 'Accepted', user_friendships_path(list: 'accepted') %>
-  <%= link_to 'Blocked', user_friendships_path(list: 'blocked') %>
-  <%= link_to 'Requested', user_friendships_path(list: 'requested') %>
-  <%= link_to 'Pending', user_friendships_path(list: 'pending') %>
+  | <%= link_to 'Blocked', user_friendships_path(list: 'blocked') %>
+  | <%= link_to 'Requested', user_friendships_path(list: 'requested') %>
+  | <%= link_to 'Pending', user_friendships_path(list: 'pending') %>
 </div>
 
 <% @user_friendships.each do |friendship| %>

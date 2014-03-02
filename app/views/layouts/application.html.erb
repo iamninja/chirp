@@ -11,11 +11,16 @@
 	<div class="navbar navbar-fixed-top">
   		<div class="navbar-inner">
   			<div class="container">
-	    		<a class="brand" href="#">Treebook</a>
+  				<% if user_signed_in? %>
+  					<%= link_to "Chirp", activities_path, class: "brand"%>
+  				<% else %>
+	    			<%= link_to "Chirp", root_path, class: "brand"%>
+	    		<% end %>
 	    		<ul class="nav">
 	      			<li><%= link_to "All Statuses", feed_path %></li>
-	      			<li><a href="#">Link</a></li>
-	      			<li><a href="#">Link</a></li>
+	      			<% if user_signed_in? %>
+	      				<li><%= link_to "Activity Feed", activities_path %></li>
+	      			<% end %>
 	    		</ul>
 
 	    		

@@ -1,5 +1,7 @@
 Book::Application.routes.draw do
   
+  resources :activities, only: [:index]
+  
   #when using devise need '/register' insteead of 'register', etc.
   as :user do
     get '/register', to:'devise/registrations#new', as: :register

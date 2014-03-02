@@ -16,6 +16,9 @@ gem 'paperclip'
 # gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 gem 'twitter-bootstrap-rails'
 
+gem 'will_paginate'
+gem 'bootstrap-will_paginate'
+
 group :development do
 	gem 'thin'
 end

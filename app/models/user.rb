@@ -46,7 +46,9 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, styles: {
     large: "800x800>", medium: "300x200>", small: "260x180>", thumb: "80x80#"
   }
-  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/                                                            
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
+
+  has_many :activities
 
 
   def self.get_gravatars
@@ -81,6 +83,14 @@ class User < ActiveRecord::Base
 
   def has_blocked?(other_user)
     blocked_friends.include?(other_user)
+  end
+
+  def create_activity(item, action)
+    activity = activities.new
+    activity.targetable = item
+    activity.action = action
+    activity.save
+    activity
   end
 
 end
